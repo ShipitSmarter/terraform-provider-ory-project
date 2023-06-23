@@ -38,7 +38,7 @@ func main() {
 
 	opts := providerserver.ServeOpts{
 
-		Address: "registry.terraform.io/ShipitSmarter/ory-network",
+		Address: "registry.terraform.io/ShipitSmarter/orynetwork",
 		Debug:   debug,
 	}
 

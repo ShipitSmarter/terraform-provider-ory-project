@@ -1,19 +1,19 @@
 terraform {
   required_providers {
-    ory-network  = {
+    orynetwork = {
       source = "registry.terraform.io/ShipitSmarter/ory-network"
     }
   }
 }
 
-provider "ory-network" {
+provider "orynetwork" {
     api_key = ""
     host = ""
 }
 
-data "ory-network_identities" "example" {}
+data "orynetwork_identities" "example" {}
 
 
 output "identities" {
-  value = data.ory-network_identities.example
+  value = data.orynetwork_identities.example
 }

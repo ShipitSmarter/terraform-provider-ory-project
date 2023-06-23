@@ -36,7 +36,7 @@ type oryProviderResponse struct {
 }
 
 func (p *oryNetworkProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
-	resp.TypeName = "ory-network"
+	resp.TypeName = "orynetwork"
 	resp.Version = p.version
 }
 
@@ -76,13 +76,7 @@ func (p *oryNetworkProvider) Configure(ctx context.Context, req provider.Configu
 	configuration.Host = data.Host.ValueString()
 	apiClient := client.NewAPIClient(configuration)
 	auth := context.WithValue(context.Background(), client.ContextAccessToken, data.ApiKey.ValueString())
-	//resp, r, err := apiClient.IdentityApi.ListIdentities(auth).Execute()
-	//if err != nil {
-	//	fmt.Fprintf(os.Stderr, "Error when calling `IdentityApi.ListIdentities``: %v\n", err)
-	//	fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	//}
-	//// response from `ListIdentities`: []Identity
-	//fmt.Fprintf(os.Stdout, "Response from `IdentityApi.ListIdentities`: %v\n", resp)
+
 	response := oryProviderResponse{
 		Context:   auth,
 		ApiClient: apiClient,
