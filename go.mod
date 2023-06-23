@@ -1,4 +1,4 @@
-module github.com/hashicorp/terraform-provider-scaffolding-framework
+module terraform-provider-ory-network
 
 go 1.19
 
@@ -8,6 +8,7 @@ require (
 	github.com/hashicorp/terraform-plugin-go v0.16.0
 	github.com/hashicorp/terraform-plugin-log v0.9.0
 	github.com/hashicorp/terraform-plugin-testing v1.3.0
+	github.com/hashicorp/terraform-provider-scaffolding-framework v0.0.0-20230620140136-849f836945a2
 )
 
 require (
