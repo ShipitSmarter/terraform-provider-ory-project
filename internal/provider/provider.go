@@ -87,7 +87,7 @@ func (p *oryNetworkProvider) Configure(ctx context.Context, req provider.Configu
 
 func (p *oryNetworkProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
-		NewExampleResource,
+		NewIdentityResource,
 	}
 }
 
