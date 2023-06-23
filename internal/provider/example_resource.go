@@ -80,7 +80,7 @@ func (r *ExampleResource) Configure(ctx context.Context, req resource.ConfigureR
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
-			fmt.Sprintf("Expected *http.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+			fmt.Sprintf("Expected *http.ApiClient, got: %T. Please report this issue to the provider developers.", req.ProviderData),
 		)
 
 		return
@@ -100,10 +100,10 @@ func (r *ExampleResource) Create(ctx context.Context, req resource.CreateRequest
 	}
 
 	// If applicable, this is a great opportunity to initialize any necessary
-	// provider client data and make a call using it.
-	// httpResp, err := r.client.Do(httpReq)
+	// provider oryClient data and make a call using it.
+	// httpResp, err := r.oryClient.Do(httpReq)
 	// if err != nil {
-	//     resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to create example, got error: %s", err))
+	//     resp.Diagnostics.AddError("ApiClient Error", fmt.Sprintf("Unable to create example, got error: %s", err))
 	//     return
 	// }
 
@@ -130,10 +130,10 @@ func (r *ExampleResource) Read(ctx context.Context, req resource.ReadRequest, re
 	}
 
 	// If applicable, this is a great opportunity to initialize any necessary
-	// provider client data and make a call using it.
-	// httpResp, err := r.client.Do(httpReq)
+	// provider oryClient data and make a call using it.
+	// httpResp, err := r.oryClient.Do(httpReq)
 	// if err != nil {
-	//     resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read example, got error: %s", err))
+	//     resp.Diagnostics.AddError("ApiClient Error", fmt.Sprintf("Unable to read example, got error: %s", err))
 	//     return
 	// }
 
@@ -152,10 +152,10 @@ func (r *ExampleResource) Update(ctx context.Context, req resource.UpdateRequest
 	}
 
 	// If applicable, this is a great opportunity to initialize any necessary
-	// provider client data and make a call using it.
-	// httpResp, err := r.client.Do(httpReq)
+	// provider oryClient data and make a call using it.
+	// httpResp, err := r.oryClient.Do(httpReq)
 	// if err != nil {
-	//     resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update example, got error: %s", err))
+	//     resp.Diagnostics.AddError("ApiClient Error", fmt.Sprintf("Unable to update example, got error: %s", err))
 	//     return
 	// }
 
@@ -174,10 +174,10 @@ func (r *ExampleResource) Delete(ctx context.Context, req resource.DeleteRequest
 	}
 
 	// If applicable, this is a great opportunity to initialize any necessary
-	// provider client data and make a call using it.
-	// httpResp, err := r.client.Do(httpReq)
+	// provider oryClient data and make a call using it.
+	// httpResp, err := r.oryClient.Do(httpReq)
 	// if err != nil {
-	//     resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to delete example, got error: %s", err))
+	//     resp.Diagnostics.AddError("ApiClient Error", fmt.Sprintf("Unable to delete example, got error: %s", err))
 	//     return
 	// }
 }

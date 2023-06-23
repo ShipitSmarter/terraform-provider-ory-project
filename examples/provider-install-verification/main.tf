@@ -1,11 +1,19 @@
 terraform {
   required_providers {
-    hashicups = {
+    ory-network  = {
       source = "registry.terraform.io/ShipitSmarter/ory-network"
     }
   }
 }
 
-provider "hashicups" {}
+provider "ory-network" {
+    api_key = ""
+    host = ""
+}
 
-data "hashicups_coffees" "example" {}
+data "ory-network_identities" "example" {}
+
+
+output "identities" {
+  value = data.ory-network_identities.example
+}

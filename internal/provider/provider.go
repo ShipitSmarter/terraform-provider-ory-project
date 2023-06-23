@@ -5,13 +5,12 @@ package provider
 
 import (
 	"context"
-	"net/http"
-
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/ory/client-go"
 )
 
 // Ensure oryNetworkProvider satisfies various provider interfaces.
@@ -25,29 +24,40 @@ type oryNetworkProvider struct {
 	version string
 }
 
-// ScaffoldingProviderModel describes the provider data model.
-type ScaffoldingProviderModel struct {
-	Endpoint types.String `tfsdk:"endpoint"`
+// oryNetworkProviderModel describes the provider data model.
+type oryNetworkProviderModel struct {
+	Host   types.String `tfsdk:"host"`
+	ApiKey types.String `tfsdk:"api_key"`
+}
+
+type oryProviderResponse struct {
+	ApiClient *client.APIClient
+	Context   context.Context
 }
 
 func (p *oryNetworkProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
-	resp.TypeName = "scaffolding"
+	resp.TypeName = "ory-network"
 	resp.Version = p.version
 }
 
 func (p *oryNetworkProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
-			"endpoint": schema.StringAttribute{
-				MarkdownDescription: "Example provider attribute",
-				Optional:            true,
+			"host": schema.StringAttribute{
+				MarkdownDescription: "Host of ORY Network",
+				Required:            true,
+			},
+			"api_key": schema.StringAttribute{
+				MarkdownDescription: "Api Key to authenticate to Ory",
+				Sensitive:           true,
+				Required:            true,
 			},
 		},
 	}
 }
 
 func (p *oryNetworkProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
-	var data ScaffoldingProviderModel
+	var data oryNetworkProviderModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -55,13 +65,30 @@ func (p *oryNetworkProvider) Configure(ctx context.Context, req provider.Configu
 		return
 	}
 
+	// TODO: validate incoming model
+
 	// Configuration values are now available.
 	// if data.Endpoint.IsNull() { /* ... */ }
 
-	// Example client configuration for data sources and resources
-	client := http.DefaultClient
-	resp.DataSourceData = client
-	resp.ResourceData = client
+	// Example oryClient configuration for data sources and resources
+
+	configuration := client.NewConfiguration()
+	configuration.Host = data.Host.ValueString()
+	apiClient := client.NewAPIClient(configuration)
+	auth := context.WithValue(context.Background(), client.ContextAccessToken, data.ApiKey.ValueString())
+	//resp, r, err := apiClient.IdentityApi.ListIdentities(auth).Execute()
+	//if err != nil {
+	//	fmt.Fprintf(os.Stderr, "Error when calling `IdentityApi.ListIdentities``: %v\n", err)
+	//	fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	//}
+	//// response from `ListIdentities`: []Identity
+	//fmt.Fprintf(os.Stdout, "Response from `IdentityApi.ListIdentities`: %v\n", resp)
+	response := oryProviderResponse{
+		Context:   auth,
+		ApiClient: apiClient,
+	}
+	resp.DataSourceData = response
+	resp.ResourceData = response
 }
 
 func (p *oryNetworkProvider) Resources(ctx context.Context) []func() resource.Resource {
@@ -72,7 +99,7 @@ func (p *oryNetworkProvider) Resources(ctx context.Context) []func() resource.Re
 
 func (p *oryNetworkProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
-		NewExampleDataSource,
+		NewIdentityDataSource,
 	}
 }
 
